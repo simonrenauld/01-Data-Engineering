@@ -6,11 +6,14 @@ Created on Sun Oct 31 20:15:22 2021
 """
 # Import Librairies
 import psycopg2
+from sqlalchemy import create_engine
 import pandas as pd
 import glob
 from io import StringIO
 import prettytable
 import os
+import sys
+import time
 
 # Delete previous file
 #################################################################
@@ -22,10 +25,6 @@ else:
   print("file not found")
 
 
-#################################################################
-# Connect to PostgreSQL 
-conn = psycopg2.connect("host=localhost dbname=postgres user=postgres password=admin")
-cur = conn.cursor()
 
 
 ###########################################################
@@ -48,7 +47,8 @@ for col in frame.columns:
 
 ###########################################################
 # Pre Cleaning check for duplicates Links
-
+frame = frame.drop(frame.columns[[0,1,6]], axis=1)  # df.columns is zero-based pd.Index
+frame = frame.drop(frame.columns[[5]], axis=1)  # df.columns is zero-based pd.Index
 frame.drop_duplicates(subset=['Link'])
 
 
@@ -68,3 +68,28 @@ print(frame.info())
 # Output Frame to CSV
 print(frame.info())
 frame.to_csv(r'C:\Users\renau\OneDrive\02-Data Projects\01-Data-Engineering\webscrapping\linkedin\outputs\outputsall.csv',encoding='utf-8-sig')
+
+
+#################################################################
+#INPUT YOUR OWN CONNECTION STRING HERE
+conn_string = 'postgres://postgres:admin@localhost/postgres'
+
+
+#perform to_sql test and print result
+db = create_engine(conn_string)
+conn = db.connect()
+
+start_time = time.time()
+frame.to_sql('Linkedinjob', con=conn, if_exists='replace', index=False)
+print("to_sql duration: {} seconds".format(time.time() - start_time))
+
+
+
+print("COPY duration: {} seconds".format(time.time() - start_time))
+
+
+
+#close connection
+conn.close()
+
+
