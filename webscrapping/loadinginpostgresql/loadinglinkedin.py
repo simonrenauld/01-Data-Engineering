@@ -14,6 +14,8 @@ import prettytable
 import os
 import sys
 import time
+import numpy as np
+from timeit import default_timer as timer
 
 # Delete previous file
 #################################################################
@@ -70,7 +72,7 @@ print(frame.info())
 frame.to_csv(r'C:\Users\renau\OneDrive\02-Data Projects\01-Data-Engineering\webscrapping\linkedin\outputs\outputsall.csv',encoding='utf-8-sig')
 
 
-#################################################################
+#################################################################        (Updates Insert only new rows)
 #INPUT YOUR OWN CONNECTION STRING HERE
 conn_string = 'postgres://postgres:admin@localhost/postgres'
 
@@ -80,7 +82,7 @@ db = create_engine(conn_string)
 conn = db.connect()
 
 start_time = time.time()
-frame.to_sql('Linkedinjob', con=conn, if_exists='replace', index=False)
+frame.to_sql('Linkedinjob', con=conn, if_exists='append', index=False)
 print("to_sql duration: {} seconds".format(time.time() - start_time))
 
 
