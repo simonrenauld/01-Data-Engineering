@@ -27,8 +27,6 @@ else:
   print("file not found")
 
 
-
-
 ###########################################################
 # Merge all Csv from Linkedin Output Folder
 path = r'C:\Users\renau\OneDrive\02-Data Projects\01-Data-Engineering\webscrapping\linkedin\outputs' # use your path
@@ -84,9 +82,6 @@ conn = db.connect()
 start_time = time.time()
 frame.to_sql('Linkedinjob', con=conn, if_exists='append', index=False)
 print("to_sql duration: {} seconds".format(time.time() - start_time))
-
-
-
 print("COPY duration: {} seconds".format(time.time() - start_time))
 
 
