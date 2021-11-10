@@ -19,7 +19,7 @@ from timeit import default_timer as timer
 
 # Delete previous file
 #################################################################
-file = r'C:\\Users\renau\OneDrive\02-Data Projects\01-Data-Engineering\webscrapping\linkedin\outputs\outputsall.csv'
+file = r'C:\\Users\renau\OneDrive\02-Data Projects\01-Data-Engineering\webscrapping\linkedin\outputs\Results\outputsall.csv'
 if(os.path.exists(file) and os.path.isfile(file)):
   os.remove(file)
   print("file deleted")
@@ -47,8 +47,7 @@ for col in frame.columns:
 
 ###########################################################
 # Pre Cleaning check for duplicates Links
-frame = frame.drop(frame.columns[[0,1,6]], axis=1)  # df.columns is zero-based pd.Index
-frame = frame.drop(frame.columns[[5]], axis=1)  # df.columns is zero-based pd.Index
+frame = frame.drop(frame.columns[[0,1]], axis=1)  # df.columns is zero-based pd.Index
 frame.drop_duplicates(subset=['Link'])
 
 
@@ -63,14 +62,18 @@ print(frame['Title'].head())
 frame = frame[~frame['Title'].isin(['data entry'])]
 print(frame.info())
 
-
-
 # Output Frame to CSV
 print(frame.info())
-frame.to_csv(r'C:\Users\renau\OneDrive\02-Data Projects\01-Data-Engineering\webscrapping\linkedin\outputs\outputsall.csv',encoding='utf-8-sig')
+frame.to_csv(r'C:\Users\renau\OneDrive\02-Data Projects\01-Data-Engineering\webscrapping\linkedin\outputs\Results\outputsall.csv',encoding='utf-8-sig')
 
 
-#################################################################        (Updates Insert only new rows)
+# clean cities
+
+### ................
+
+
+
+################################################################        (Updates Insert only new rows)
 #INPUT YOUR OWN CONNECTION STRING HERE
 conn_string = 'postgres://postgres:admin@localhost/postgres'
 

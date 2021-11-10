@@ -23,11 +23,11 @@ descriptions=[]
 links =[]
 
 #Open Html links from CSV
-with open(r'C:\Users\renau\OneDrive\02-Data Projects\01-Data-Engineering\webscrapping\linkedin\outputs\outputsalltest.csv', encoding="utf8") as cp_csv:
+with open(r'C:\Users\renau\OneDrive\02-Data Projects\01-Data-Engineering\webscrapping\linkedin\outputs\Raw\outputsallVietnam.csv', encoding="utf8") as cp_csv:
     cp_url = csv.reader(cp_csv)
     next(cp_csv)
     for row in cp_url:
-        links = row[5]
+        links = row[6]
         contents.append(links)
 
 #link should be something like "https://www...."
@@ -35,7 +35,7 @@ for link in contents:
     
     browser.get(link) 
     
-    time.sleep( 2 ) 
+    time.sleep( 1 ) 
     try:
         cookie = browser.find_element_by_xpath("//button[contains(text(),'Show more')]")
         cookie.click()
@@ -59,7 +59,7 @@ df_da['Link']=contents
 # Delete all text after string    
 df_da['Description'] = df_da['Description'].str.split('Similar jobs').str[0]
 df_da['Description'] = df_da['Description'].str.split('Off').str[0]
-df_da.to_csv(r'C:\Users\renau\OneDrive\02-Data Projects\01-Data-Engineering\webscrapping\linkedin\outputs\outputsalltestdescriptions.csv',encoding='utf-8-sig')    
+df_da.to_csv(r'C:\Users\renau\OneDrive\02-Data Projects\01-Data-Engineering\webscrapping\linkedin\outputs\Results\outputsalldescriptionsVietnam.csv',encoding='utf-8-sig')    
     
 
         
