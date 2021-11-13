@@ -24,7 +24,8 @@ DRIVER_PATH = 'C:/Users/bin/chromedriver'
 driver = webdriver.Chrome(executable_path = DRIVER_PATH)
 driver.implicitly_wait(3)
 
-driver.get('https://www.vietnamworks.com/data+in-ho-chi-minh-v29-en?filtered=true')
+driver.get("https://www.vietnamworks.com/job-search/all-jobs?filtered=true")
+wait=WebDriverWait(driver, 10)
 
 titles=[]
 links =[]
@@ -34,62 +35,45 @@ time.sleep( 5 )
 ###########################################################################################
 # Click search Button 
 try:
-    cookie = driver.find_element_by_xpath('.//a[contains(@class, "button searchBar__button")]')
-    cookie.click()
+    wait.until(EC.element_to_be_clickable((By.XPATH, '//a[contains(@class, "button searchBar__button")]'))).click()
 except:
     pass
-
 
 try:
-    cookie = driver.find_element_by_xpath('.//a[contains(@class, "button searchBar__button")]')
-    cookie.click()
+    wait.until(EC.element_to_be_clickable((By.XPATH, '//a[contains(@class, "button searchBar__button")]'))).click()
 except:
     pass
-time.sleep( 5 )
+
 ###########################################################################################
 #loop
-for i in range(0,20):
-    
-  
-   
-  #job_card = driver.find_elements_by_xpath('//div[contains(@class,"job_seen_beacon")]')
-    job_card = driver.find_elements_by_xpath('.//h3[contains(@class, "title")]')
 
+for i in range(0,180):
     
+    job_card = wait.until(EC.presence_of_all_elements_located((By.XPATH, "//div[contains(@class,'job-info-wrapper ')]//a[@class='job-title priorityJob']")))
+    print(len(job_card))
     for job in job_card:
-       
-
-                                             
-        try:
-            title = job.find_elements_by_xpath('.//h3[contains(@class, "title")]')
-        except:
-            title = job.find_elements_by_xpath('.//h3[contains(@class, "title")]').get_attribute(name="title")
-        titles.append(title)
-        print(title)
-        
-        links.append(job.get_attribute(name="href"))
-    
-  
-    time.sleep( 2 )
-      
+        links.append(job.get_attribute("href"))
+        titles.append(job.text)
+        print(job.get_attribute("href"),job.text)
 
     try:
-        next_page = driver.find_element_by_xpath('//li[@page-item={}]//a[@class=">"]'.format(i+2))
-        next_page.click()
-        
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@class='page-link' and .='>']"))).click()      
     except NoSuchElementException:
-       break
+        break
 
 
 print("Page: {}".format(str(i+2)))           
     
 df_da=pd.DataFrame()
 df_da['Title']=titles
-df_da['Title']=links
+df_da['Link']=links
+    
+        
+print(df_da)
     
         
 
-df_da.to_csv('.\outputs\gis10312021.csv',encoding='utf-8-sig')
+df_da.to_csv('.\outputs\jobvietnamwork11122021_v3test.csv',encoding='utf-8-sig')
 
 
 

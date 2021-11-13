@@ -24,11 +24,11 @@ descriptions=[]
 links =[]
 
 #Open Html links from CSV
-with open('indeedresults.csv', 'rt') as cp_csv:
+with open(r'C:\Users\renau\OneDrive\02-Data Projects\01-Data-Engineering\webscrapping\Vietnamworks\outputs\Results\outputsall.csv', encoding="utf8") as cp_csv:
     cp_url = csv.reader(cp_csv)
     next(cp_csv)
     for row in cp_url:
-        links = row[4]
+        links = row[6]
         contents.append(links)
 
 #link should be something like "https://www...."
@@ -54,9 +54,7 @@ for link in contents:
 df_da=pd.DataFrame()
 df_da['Description']=descriptions
 df_da['Link']=contents
-df_da.to_csv('indeedresultsdescriptions.csv',encoding='utf-8-sig')    
+df_da.to_csv(r'C:\Users\renau\OneDrive\02-Data Projects\01-Data-Engineering\webscrapping\linkedin\outputs\Results\outputsalldescriptionsVietnam.csv',encoding='utf-8-sig')    
     
-
-        
 
     
