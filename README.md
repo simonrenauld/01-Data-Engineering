@@ -9,3 +9,6 @@ https://github.com/PacktPublishing/Data-Engineering-with-Databricks-Cookbook
 
 
 https://github.com/DataTalksClub/data-engineering-zoomcamp
+
+
+https://github.com/josephmachado/efficient_data_processing_spark
